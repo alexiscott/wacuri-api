@@ -1,11 +1,11 @@
-- [Setting up NPM packages](#orgb029d96)
-- [Running the express based websocket server](#orgf1f7012)
-- [Making sure we will be able to connect to our server over the internet.](#orgc5a799a)
+- [Setting up NPM packages](#org3d43549)
+- [Running the express based websocket server](#orge56b67c)
+- [Making sure we will be able to connect to our server over the internet.](#org8af3a4a)
 
 The API is a backend Express application which serves as a message broker for websockets.
 
 
-<a id="orgb029d96"></a>
+<a id="org3d43549"></a>
 
 # Setting up NPM packages
 
@@ -28,7 +28,7 @@ yarn add express socket.io nodemon
 ```
 
 
-<a id="orgf1f7012"></a>
+<a id="orge56b67c"></a>
 
 # Running the express based websocket server
 
@@ -60,11 +60,11 @@ To start our server, we modify our `package.json` scripts to use our index.js fi
 ```
 
 
-<a id="orgc5a799a"></a>
+<a id="org8af3a4a"></a>
 
 # Making sure we will be able to connect to our server over the internet.
 
-In order to do this we will use Ngrok to setup a public URL, <https://ngrok.com/>. Once we have setup an account and have it on our system, we can run it. `4001` is the port number we are using for our server:
+In order to do this we will use Ngrok to setup a public URL, <https://ngrok.com/>. You will be given instructions when you register. Once we have setup an account and have the executable on our system, we can run it. `4001` is the port number we are using for our server. More instructions here: <https://ngrok.com/docs#getting-started-expose>.
 
 ```shell
 ./ngrok http 4001
@@ -81,3 +81,76 @@ ngrok will print out information like this:
     Forwarding                    https://417c4c64df9b.ngrok.io -> http://localhost:4001
     Connections                   ttl     opn     rt1     rt5     p50     p90
                                   0       0       0.00    0.00    0.00    0.00
+
+Also, you can visit the link that Ngrok provides you, under "forwarding" above, and you should see a message about being connected. These are dynamic links and change everytime we connnect/ reconnect.
+
+We can also test the websockets connection by modifying this script to use the public URI that NGROK provides. You just need to modify `wsUri` then open `websockets.html` in your browser.
+
+```html
+<!DOCTYPE html>
+  <meta charset="utf-8" />
+  <title>WebSocket Test</title>
+  <script language="javascript" type="text/javascript">
+
+  var wsUri = "ws://localhost:4001"; // CHANGE me to the match the server that you are using.
+  var output;
+
+  function init()
+  {
+    output = document.getElementById("output");
+    testWebSocket();
+  }
+
+  function testWebSocket()
+  {
+    websocket = new WebSocket(wsUri);
+    websocket.onopen = function(evt) { onOpen(evt) };
+    websocket.onclose = function(evt) { onClose(evt) };
+    websocket.onmessage = function(evt) { onMessage(evt) };
+    websocket.onerror = function(evt) { onError(evt) };
+  }
+
+  function onOpen(evt)
+  {
+    writeToScreen("CONNECTED");
+    doSend("WebSocket rocks");
+  }
+
+  function onClose(evt)
+  {
+    writeToScreen("DISCONNECTED");
+  }
+
+  function onMessage(evt)
+  {
+    writeToScreen('<span style="color: blue;">RESPONSE: ' + evt.data+'</span>');
+    websocket.close();
+  }
+
+  function onError(evt)
+  {
+    writeToScreen('<span style="color: red;">ERROR:</span> ' + evt.data);
+  }
+
+  function doSend(message)
+  {
+    writeToScreen("SENT: " + message);
+    websocket.send(message);
+  }
+
+  function writeToScreen(message)
+  {
+    var pre = document.createElement("p");
+    pre.style.wordWrap = "break-word";
+    pre.innerHTML = message;
+    output.appendChild(pre);
+  }
+
+  window.addEventListener("load", init, false);
+
+  </script>
+
+  <h2>WebSocket Test</h2>
+
+  <div id="output"></div>
+```
