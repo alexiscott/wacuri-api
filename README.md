@@ -1,10 +1,11 @@
-- [Setting up NPM packages](#org8232d75)
-- [Running the express based websocket server](#org49b53b7)
+- [Setting up NPM packages](#orgb029d96)
+- [Running the express based websocket server](#orgf1f7012)
+- [Making sure we will be able to connect to our server over the internet.](#orgc5a799a)
 
 The API is a backend Express application which serves as a message broker for websockets.
 
 
-<a id="org8232d75"></a>
+<a id="orgb029d96"></a>
 
 # Setting up NPM packages
 
@@ -27,7 +28,7 @@ yarn add express socket.io nodemon
 ```
 
 
-<a id="org49b53b7"></a>
+<a id="orgf1f7012"></a>
 
 # Running the express based websocket server
 
@@ -50,10 +51,33 @@ io.sockets.on("connection", (socket) => {
 });
 ```
 
-To start our server, we modify our package.json scripts to use our index.js file and with nodemon instead of node, giving us hot reloading. In our terminal we just need to type yarn start in a dedicated terminal each time we want to start the server.
+To start our server, we modify our `package.json` scripts to use our index.js file and with nodemon instead of node, giving us hot reloading. In our terminal we just need to type yarn start in a dedicated terminal each time we want to start the server.
 
 ```js
 "scripts": {
   "start": "nodemon ./src/index.js"
 },
 ```
+
+
+<a id="orgc5a799a"></a>
+
+# Making sure we will be able to connect to our server over the internet.
+
+In order to do this we will use Ngrok to setup a public URL, <https://ngrok.com/>. Once we have setup an account and have it on our system, we can run it. `4001` is the port number we are using for our server:
+
+```shell
+./ngrok http 4001
+```
+
+ngrok will print out information like this:
+
+    Session Status                online
+    Account                       Alex Scott (Plan: Free)
+    Version                       2.3.38
+    Region                        United States (us)
+    Web Interface                 http://127.0.0.1:4040
+    Forwarding                    http://417c4c64df9b.ngrok.io -> http://localhost:4001
+    Forwarding                    https://417c4c64df9b.ngrok.io -> http://localhost:4001
+    Connections                   ttl     opn     rt1     rt5     p50     p90
+                                  0       0       0.00    0.00    0.00    0.00

@@ -42,10 +42,31 @@ We set up our server here. It will log a message each time a different client/us
   });
 #+end_src
 
-To start our server, we modify our package.json scripts to use our index.js file and with nodemon instead of node, giving us hot reloading.  In our terminal we just need to type yarn start in a dedicated terminal each time we want to start the server.
+To start our server, we modify our ~package.json~ scripts to use our index.js file and with nodemon instead of node, giving us hot reloading.  In our terminal we just need to type yarn start in a dedicated terminal each time we want to start the server.
 
     #+begin_src js
       "scripts": {
         "start": "nodemon ./src/index.js"
       },
     #+end_src
+
+* Making sure we will be able to connect to our server over the internet.
+
+In order to do this we will use Ngrok to setup a public URL, https://ngrok.com/. Once we have setup an account and have the executable on our system, we can run it. ~4001~ is the port number we are using for our server. More instructions here: https://ngrok.com/docs#getting-started-expose.
+
+#+begin_src shell
+./ngrok http 4001
+#+end_src
+
+ngrok will print out information like this:
+#+begin_example
+Session Status                online
+Account                       Alex Scott (Plan: Free)
+Version                       2.3.38
+Region                        United States (us)
+Web Interface                 http://127.0.0.1:4040
+Forwarding                    http://417c4c64df9b.ngrok.io -> http://localhost:4001
+Forwarding                    https://417c4c64df9b.ngrok.io -> http://localhost:4001
+Connections                   ttl     opn     rt1     rt5     p50     p90
+                              0       0       0.00    0.00    0.00    0.00
+#+end_example
