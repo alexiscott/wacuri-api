@@ -1,0 +1,24 @@
+#+title: Wacuri API
+#+PROPERTY: header-args :tangle "setup.sh"
+#+EXPORT_FILE_NAME: README.md
+
+The API is a backend Express application which serves as a message broker for websockets.
+
+* Setting up NPM packages
+Install yarn globally. This assumes that you already have NPM and NODE installed.
+#+begin_src shell
+  npm install -g yarn
+#+end_src
+
+Initialize the app and the ~package.json~ file
+#+begin_src shell
+  npm init -y
+#+end_src
+
+
+Add the basic packages that we will need. I am including nodemon which will make it easier to make changes during development by live reloading of the app.
+#+begin_src shell
+yarn add express socket.io nodemon
+#+end_src
+
+#+RESULTS:
