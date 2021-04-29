@@ -74,3 +74,11 @@ Connections                   ttl     opn     rt1     rt5     p50     p90
 #+end_example
 
 Also, you can visit the link that Ngrok provides  you, under "forwarding" above, and you should see a message about being connected. These are dynamic links and change everytime we connnect/ reconnect.
+
+* Running a Peer JS server
+https://peerjs.com/
+Peer JS provides a broker for interactions enabling:
+- User connections
+- Sending media streams (binary data) per user.
+
+ We can run a local Peer JS server via node. Install it globally with ~npm install -g peer~ and or use their server https://peerjs.com/peerserver.html by providing no 'host' and key options.
